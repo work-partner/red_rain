@@ -9,7 +9,7 @@ jobs:
   compile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install native module build dependencies
         run: |
           sudo apt-get update
@@ -32,7 +32,7 @@ jobs:
     needs: compile
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Patch product.json (missing win32ContextMenu)
         shell: pwsh
         run: |
