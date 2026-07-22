@@ -15,7 +15,7 @@ jobs:
           node-version-file: '.nvmrc'
       - run: npm ci
       - run: npm run compile
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: compiled-build
           path: |
@@ -46,7 +46,7 @@ jobs:
           .\..\VSCode-win32-x64\bin\code.cmd --install-extension red-rain-toolkit.vsix || echo "install step skipped, install manually on first run"
         shell: pwsh
         continue-on-error: true
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: RedRain-Windows
           path: RedRain-win32-x64.zip
