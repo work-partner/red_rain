@@ -1,0 +1,22 @@
+{
+  "name": "Red Rain Glass",
+  "colors": {
+    "editor.background": "#0b0b12cc",
+    "editor.foreground": "#e8e6f0",
+    "sideBar.background": "#0e0e18b3",
+    "activityBar.background": "#0a0a12cc",
+    "activityBar.foreground": "#ff3d5e",
+    "statusBar.background": "#0a0a12e6",
+    "statusBar.foreground": "#c9c6e0",
+    "titleBar.activeBackground": "#0a0a12e6",
+    "tab.activeBackground": "#15152699",
+    "tab.inactiveBackground": "#0d0d1680",
+    "panel.background": "#0e0e18b3",
+    "focusBorder": "#ff3d5e88",
+    "button.background": "#ff3d5e",
+    "button.hoverBackground": "#ff5c78",
+    "editorCursor.foreground": "#ff3d5e",
+    "terminal.background": "#0b0b12cc"
+  },
+  "tokenColors": []
+}

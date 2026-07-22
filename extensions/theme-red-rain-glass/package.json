@@ -1,0 +1,19 @@
+{
+  "name": "theme-red-rain-glass",
+  "displayName": "Red Rain Glass",
+  "description": "Default translucent theme for Red Rain",
+  "version": "1.0.0",
+  "publisher": "red-rain",
+  "engines": {
+    "vscode": "*"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Red Rain Glass",
+        "uiTheme": "vs-dark",
+        "path": "./themes/red-rain-glass-color-theme.json"
+      }
+    ]
+  }
+}
