@@ -56,8 +56,8 @@ jobs:
           }
       - run: npm ci
       - name: Build Windows package
-        run: npm run gulp vscode-win32-x64-min
-      - name: Zip result (fallback if no installer script runs)
+        run: npm run gulp vscode-win32-x64
+      - name: Zip result
         run: Compress-Archive -Path ..\VSCode-win32-x64\* -DestinationPath RedRain-win32-x64.zip
         shell: pwsh
       - name: Install bundled Red Rain Toolkit extension into the package
