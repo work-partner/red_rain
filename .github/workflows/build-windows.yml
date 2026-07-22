@@ -39,6 +39,21 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: compiled-build
+      - name: Locate Visual Studio installation
+        shell: pwsh
+        run: |
+          $installerPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsPath = & $installerPath -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vsPath) {
+            Write-Error "vswhere did not find a Visual Studio install with the C++ toolset."
+            exit 1
+          }
+          Write-Host "Found Visual Studio at: $vsPath"
+          if ($vsPath -match "2019") {
+            echo "vs2019_install=$vsPath" >> $env:GITHUB_ENV
+          } else {
+            echo "vs2022_install=$vsPath" >> $env:GITHUB_ENV
+          }
       - run: npm ci
       - name: Build Windows package
         run: npm run gulp vscode-win32-x64-min
