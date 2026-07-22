@@ -33,6 +33,24 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Patch product.json (missing win32ContextMenu)
+        shell: pwsh
+        run: |
+          node -e "
+            const fs = require('fs');
+            const p = JSON.parse(fs.readFileSync('product.json', 'utf8'));
+            if (!p.win32ContextMenu) {
+              p.win32ContextMenu = {
+                x64: { clsid: '{d17f1cca-3bfa-489f-9736-4a55e8f61a5e}' },
+                arm64: { clsid: '{1f75b4a1-3b8b-4b1c-9c3f-8f5b8b0d6c9e}' },
+                ia32: { clsid: '{a5c1d6d6-52a4-4e0d-9e5e-8a9dc6b16f7d}' }
+              };
+              fs.writeFileSync('product.json', JSON.stringify(p, null, '\t'));
+              console.log('Patched product.json with win32ContextMenu.');
+            } else {
+              console.log('win32ContextMenu already present, no patch needed.');
+            }
+          "
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
