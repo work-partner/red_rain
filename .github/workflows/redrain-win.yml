@@ -46,13 +46,13 @@ jobs:
           "name=$($exe.Name)" >> $env:GITHUB_OUTPUT
 
       - name: Upload portable zip
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Red-Rain-win32-x64-portable
           path: Red-Rain-win32-x64-portable.zip
 
       - name: Upload installer exe
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Red-Rain-win32-x64-setup
           path: ${{ steps.inst.outputs.path }}
