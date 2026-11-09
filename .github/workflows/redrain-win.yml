@@ -22,8 +22,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup Electron
+        uses: ./.github/actions/setup-electron
+        with:
+          arch: x64
+          save-cache: 'true'
+
       - name: Build & package Red Rain (win32 x64)
-        run: npm run gulp -- vscode-win32-x64
+        shell: pwsh
+        run: |
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            npm.cmd run gulp -- vscode-win32-x64
+            $exitCode = $LASTEXITCODE
+            if ($exitCode -eq 0) {
+              break
+            }
+            if ($attempt -eq 3) {
+              exit $exitCode
+            }
+            Write-Host "Packaging failed (exit $exitCode); retrying in $($attempt * 10) seconds (attempt $($attempt + 1)/3)..."
+            Start-Sleep -Seconds ($attempt * 10)
+          }
 
       - name: Inno updater
         run: npm run gulp -- vscode-win32-x64-inno-updater
@@ -34,13 +53,15 @@ jobs:
       - name: Zip portable build
         shell: pwsh
         run: |
-          Compress-Archive -Path "../VSCode-win32-x64/*" -DestinationPath "${{ github.workspace }}/Red-Rain-win32-x64-portable.zip" -Force
+          Compress-Archive -Path ".\VSCode-win32-x64\*" -DestinationPath "${{ github.workspace }}\Red-Rain-win32-x64-portable.zip" -Force
 
       - name: Locate installer
         id: inst
         shell: pwsh
         run: |
-          $exe = Get-ChildItem -Path ".build/win32-x64" -Recurse -Filter "*.exe" | Where-Object { $_.Name -notlike "*inno_updater*" } | Select-Object -First 1
+          $exe = Get-ChildItem -Path ".build\win32-x64" -Recurse -Filter "*.exe" |
+            Where-Object { $_.Name -notlike "*inno_updater*" } |
+            Select-Object -First 1
           if (-not $exe) { Write-Error "Installer exe not found"; exit 1 }
           "path=$($exe.FullName)" >> $env:GITHUB_OUTPUT
           "name=$($exe.Name)" >> $env:GITHUB_OUTPUT
