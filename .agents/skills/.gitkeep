@@ -1,0 +1,1 @@
+This directory is intentionally present so postinstall can create the Claude skills harness link even when no skills are currently checked in.
