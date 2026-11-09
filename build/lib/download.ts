@@ -19,8 +19,8 @@ export function sha256(contents: Uint8Array): string {
 }
 
 export async function download(url: string, options: IDownloadOptions = {}): Promise<Uint8Array> {
-	const attempts = options.attempts ?? 3;
-	const retryDelay = options.retryDelay ?? 1000;
+	const attempts = options.attempts ?? 5;
+	const retryDelay = options.retryDelay ?? 1_000;
 	const timeout = options.timeout ?? 30_000;
 	let lastError: Error | undefined;
 
@@ -46,7 +46,8 @@ export async function download(url: string, options: IDownloadOptions = {}): Pro
 			lastError = error instanceof Error ? error : new Error(String(error));
 			if (attempt < attempts) {
 				options.onRetry?.(lastError);
-				await new Promise(resolve => setTimeout(resolve, retryDelay));
+				const delay = Math.min(retryDelay * 2 ** (attempt - 1), 30_000);
+				await new Promise(resolve => setTimeout(resolve, delay));
 			}
 		}
 	}
