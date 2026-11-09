@@ -1,0 +1,106 @@
+/*---------------------------------------------------------------------------------------------
+ *  Red Rain — glassmorphism & storm-accent layer
+ *  Loaded after style.css via style.ts. All values are theme-aware and can be
+ *  overridden at runtime by the Customization Center (redrain.* settings).
+ *--------------------------------------------------------------------------------------------*/
+
+.monaco-workbench {
+        --rr-accent: #3bf58c;
+        --rr-accent-soft: rgba(59, 245, 140, 0.16);
+        --rr-glow: 0 0 12px rgba(59, 245, 140, 0.28);
+        --rr-radius: 10px;
+}
+
+/* Aurora window background — visible through Modern UI panel gaps and
+   behind frosted surfaces; on Win11 acrylic this blends with the desktop. */
+.monaco-workbench:not(.hc-black):not(.hc-light) {
+        background:
+                radial-gradient(1200px 700px at 12% -8%, rgba(59, 245, 140, 0.07), transparent 55%),
+                radial-gradient(1000px 620px at 88% 108%, rgba(59, 245, 140, 0.055), transparent 60%),
+                radial-gradient(900px 500px at 55% 45%, rgba(20, 80, 45, 0.10), transparent 65%);
+}
+
+/* Deeper frost on popups the modern UI already blurs */
+.monaco-workbench.modern-ui-frosted-glass:not(.hc-black):not(.hc-light) {
+                --vscode-frosted-glass-saturation: 1.25;
+}
+
+/* Glass sheen + accent hairline on the title bar */
+.monaco-workbench .part.titlebar {
+        position: relative;
+}
+.monaco-workbench .part.titlebar::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 1px;
+        background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(59, 245, 140, 0.35) 18%,
+                rgba(59, 245, 140, 0.10) 50%,
+                rgba(59, 245, 140, 0.35) 82%,
+                transparent 100%);
+        pointer-events: none;
+}
+
+/* Accent glow on the active editor tab */
+.monaco-workbench .tab.active,
+.monaco-workbench .tabs-container .tab.active {
+        position: relative;
+}
+.monaco-workbench:not(.hc-black):not(.hc-light) .tabs-container .tab.active::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 8%;
+        right: 8%;
+        height: 1px;
+        background: var(--rr-accent);
+        opacity: 0.55;
+        box-shadow: 0 0 8px var(--rr-accent);
+        pointer-events: none;
+}
+
+/* Activity bar: glowing active dot */
+.monaco-workbench:not(.hc-black):not(.hc-light) .activitybar .monaco-action-bar .action-item.checked .active-item-indicator {
+        box-shadow: var(--rr-glow);
+}
+
+/* Buttons & primary controls catch the accent glow on hover */
+.monaco-workbench:not(.hc-black):not(.hc-light) .monaco-button:hover:not(.secondary) {
+        box-shadow: 0 0 14px var(--rr-accent-soft), 0 0 0 1px var(--rr-accent);
+}
+
+/* Status bar: subtle top light */
+.monaco-workbench .part.statusbar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(59, 245, 140, 0.05), transparent 40%);
+        pointer-events: none;
+}
+
+/* Slender glass scrollbars */
+.monaco-scrollable-element > .scrollbar > .slider {
+        border-radius: 6px;
+}
+.monaco-scrollable-element > .scrollbar.vertical > .slider {
+        width: 8px;
+        left: 2px;
+}
+
+/* Command center (title bar search) pill polish */
+.monaco-workbench .part.titlebar .command-center {
+        border-radius: 8px;
+        transition: box-shadow 120ms ease;
+}
+.monaco-workbench .part.titlebar .command-center:hover {
+        box-shadow: 0 0 0 1px var(--rr-accent-soft), var(--rr-glow);
+}
+
+/* Reduced transparency: kill all decorative glass */
+.monaco-workbench.monaco-reduce-transparency .part.titlebar::after,
+.monaco-workbench.monaco-reduce-transparency .part.statusbar::before,
+.monaco-workbench.monaco-reduce-transparency .tabs-container .tab.active::before {
+        display: none;
+}

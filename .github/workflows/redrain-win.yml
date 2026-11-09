@@ -1,0 +1,58 @@
+name: Red Rain — Windows Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 150
+    steps:
+      - name: Checkout Red Rain fork
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (matches .nvmrc)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build & package Red Rain (win32 x64)
+        run: npm run gulp -- vscode-win32-x64
+
+      - name: Inno updater
+        run: npm run gulp -- vscode-win32-x64-inno-updater
+
+      - name: Build installer (setup exe)
+        run: npm run gulp -- vscode-win32-x64-user-setup
+
+      - name: Zip portable build
+        shell: pwsh
+        run: |
+          Compress-Archive -Path "../VSCode-win32-x64/*" -DestinationPath "${{ github.workspace }}/Red-Rain-win32-x64-portable.zip" -Force
+
+      - name: Locate installer
+        id: inst
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path ".build/win32-x64" -Recurse -Filter "*.exe" | Where-Object { $_.Name -notlike "*inno_updater*" } | Select-Object -First 1
+          if (-not $exe) { Write-Error "Installer exe not found"; exit 1 }
+          "path=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+          "name=$($exe.Name)" >> $env:GITHUB_OUTPUT
+
+      - name: Upload portable zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: Red-Rain-win32-x64-portable
+          path: Red-Rain-win32-x64-portable.zip
+
+      - name: Upload installer exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Red-Rain-win32-x64-setup
+          path: ${{ steps.inst.outputs.path }}

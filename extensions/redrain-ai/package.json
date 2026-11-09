@@ -1,0 +1,127 @@
+{
+	"name": "redrain-ai",
+	"displayName": "Red Rain AI Workstation",
+	"description": "Connect OpenAI, Anthropic Claude, Google Gemini or local Ollama to your codebase. Streaming chat, code context, quick actions.",
+	"version": "1.0.0",
+	"publisher": "vscode",
+	"license": "MIT",
+	"engines": { "vscode": "^1.145.0" },
+	"categories": ["Other"],
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "redrain-ai",
+					"title": "AI Workstation",
+					"icon": "media/spark.svg"
+				}
+			]
+		},
+		"views": {
+			"redrain-ai": [
+				{
+					"type": "webview",
+					"id": "redrainAI.chat",
+					"name": "Workstation"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "redrain.ai.focus",
+				"title": "Red Rain AI: Focus Workstation",
+				"category": "Red Rain AI"
+			},
+			{
+				"command": "redrain.ai.explain",
+				"title": "Red Rain AI: Explain Selection",
+				"category": "Red Rain AI"
+			},
+			{
+				"command": "redrain.ai.refactor",
+				"title": "Red Rain AI: Refactor Selection",
+				"category": "Red Rain AI"
+			},
+			{
+				"command": "redrain.ai.comments",
+				"title": "Red Rain AI: Add Comments to Selection",
+				"category": "Red Rain AI"
+			},
+			{
+				"command": "redrain.ai.tests",
+				"title": "Red Rain AI: Generate Tests for Selection",
+				"category": "Red Rain AI"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "redrain.ai.explain",
+					"when": "editorHasSelection",
+					"group": "redrain@1"
+				},
+				{
+					"command": "redrain.ai.refactor",
+					"when": "editorHasSelection",
+					"group": "redrain@2"
+				},
+				{
+					"command": "redrain.ai.comments",
+					"when": "editorHasSelection",
+					"group": "redrain@3"
+				},
+				{
+					"command": "redrain.ai.tests",
+					"when": "editorHasSelection",
+					"group": "redrain@4"
+				}
+			]
+		},
+		"configuration": {
+			"title": "Red Rain AI",
+			"properties": {
+				"redrain.ai.provider": {
+					"type": "string",
+					"enum": ["openai", "anthropic", "gemini", "ollama", "custom"],
+					"default": "openai",
+					"description": "Active AI provider."
+				},
+				"redrain.ai.model": {
+					"type": "string",
+					"default": "gpt-4o-mini",
+					"description": "Model id sent to the provider (e.g. gpt-4o, claude-sonnet-4-5, gemini-2.5-flash, llama3.1)."
+				},
+				"redrain.ai.baseUrl": {
+					"type": "string",
+					"default": "",
+					"description": "Override base URL (for the custom provider or self-hosted endpoints). Example: http://localhost:1234/v1"
+				},
+				"redrain.ai.temperature": {
+					"type": "number",
+					"default": 0.4,
+					"minimum": 0,
+					"maximum": 2,
+					"description": "Sampling temperature."
+				},
+				"redrain.ai.maxTokens": {
+					"type": "number",
+					"default": 2048,
+					"minimum": 128,
+					"description": "Maximum output tokens."
+				},
+				"redrain.ai.systemPrompt": {
+					"type": "string",
+					"default": "You are Red Rain AI, a concise expert coding assistant embedded in the Red Rain editor. Prefer short explanations and complete code blocks. Use markdown. When asked to change code, output the full updated code in a fenced block with the language tag.",
+					"description": "System prompt used for chat and quick actions."
+				},
+				"redrain.ai.sendFileContext": {
+					"type": "boolean",
+					"default": true,
+					"description": "Include the active file's content as context when chatting."
+				}
+			}
+		}
+	},
+	"main": "./extension.js",
+	"activationEvents": ["onView:redrainAI.chat"]
+}

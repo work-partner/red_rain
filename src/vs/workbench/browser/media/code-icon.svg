@@ -1,0 +1,16 @@
+<svg id="RedRain" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+	<defs>
+		<filter id="rrGlow" x="-40%" y="-40%" width="180%" height="180%">
+			<feGaussianBlur stdDeviation="26" result="b"/>
+			<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+		</filter>
+	</defs>
+	<g filter="url(#rrGlow)">
+		<rect x="140" y="140" width="744" height="744" rx="150" fill="none" stroke="#3bf58c" stroke-width="64"/>
+		<path d="M330 180 L300 330 L360 380 L318 520" fill="none" stroke="#baffd4" stroke-width="26" stroke-linecap="round" opacity="0.85"/>
+		<path d="M760 300 L690 340 L720 470" fill="none" stroke="#baffd4" stroke-width="24" stroke-linecap="round" opacity="0.75"/>
+		<path d="M540 852 L580 730 L520 700" fill="none" stroke="#baffd4" stroke-width="24" stroke-linecap="round" opacity="0.8"/>
+		<path d="M820 640 L740 600 L770 520" fill="none" stroke="#d6ffe6" stroke-width="20" stroke-linecap="round" opacity="0.6"/>
+	</g>
+	<rect x="300" y="300" width="424" height="424" rx="90" fill="#0a120c" opacity="0.55"/>
+</svg>

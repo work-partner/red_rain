@@ -1,0 +1,39 @@
+{
+	"name": "redrain-customizer",
+	"displayName": "Red Rain Customization Center",
+	"description": "High-end customization center for Red Rain: accents, glass, backgrounds, typing effects and profiles.",
+	"version": "1.0.0",
+	"publisher": "vscode",
+	"license": "MIT",
+	"engines": { "vscode": "^1.145.0" },
+	"categories": ["Other"],
+	"contributes": {
+		"commands": [
+			{
+				"command": "redrain.customizer.open",
+				"title": "Red Rain: Customization Center",
+				"category": "Red Rain",
+				"icon": "$(settings-gear)"
+			},
+			{
+				"command": "redrain.customizer.exportProfile",
+				"title": "Red Rain: Export Customization Profile",
+				"category": "Red Rain"
+			},
+			{
+				"command": "redrain.customizer.importProfile",
+				"title": "Red Rain: Import Customization Profile",
+				"category": "Red Rain"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "redrain.customizer.open",
+				"key": "ctrl+alt+u",
+				"mac": "cmd+alt+u"
+			}
+		]
+	},
+	"main": "./extension.js",
+	"activationEvents": ["onCommand:redrain.customizer.open"]
+}
